@@ -2,11 +2,12 @@ from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from todolist.models import Task
-from todolist.serializers.task import TasksSerializer
+from todolist.serializers.task import TasksSerializer, SubTaskCreateSerializer
 
 
 # Create your views here.
@@ -44,3 +45,30 @@ def taskGPD(request: Request, pk: int) -> Response:
     if request.method == 'DELETE':
         task.delete()
         return Response("Task successfully deleted", status=status.HTTP_200_OK)
+
+
+class SubTaskListCreateView(ListCreateAPIView):
+    queryset = SubTask.objects.all()
+    serializer_class = SubTaskCreateSerializer
+
+
+class SubTaskDetailUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = SubTask.objects.all()
+    serializer_class = SubTaskCreateSerializer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
