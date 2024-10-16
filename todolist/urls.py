@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.urls import path
 
-from todolist.views import tasks, taskGPD, SubTaskListCreateView, SubTaskDetailUpdateDeleteView
+from todolist.views import TaskRetrieveUpdateDestroyAPIView, SubTaskListCreateView, SubTaskDetailUpdateDeleteView, TaskListCreateAPIView
 
 urlpatterns = [
-    path('', tasks, name='task_list'),
-    path('<int:pk>/', taskGPD, name='task_detail'),
+    path('', TaskListCreateAPIView, name='task_list'),
+    # path('<int:pk>/', taskGPD, name='task_detail'),
+    path('<slug:t_slug>/', TaskRetrieveUpdateDestroyAPIView, name='task_detail'),
     path('subtasks/', SubTaskListCreateView.as_view(), name='subtask-list-create'),
     path('subtasks/<int:pk>/', SubTaskDetailUpdateDeleteView.as_view(), name='subtask-detail-update-delete'),
 

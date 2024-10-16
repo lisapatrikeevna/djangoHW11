@@ -37,3 +37,14 @@ from todolist.serializers  import CategoryCreateSerializer
 serializer=CategoryCreateSerializer()
 print(repr(serializer))
 
+
+pip install django-filter
+
+
+
+
+
+
+
+
+

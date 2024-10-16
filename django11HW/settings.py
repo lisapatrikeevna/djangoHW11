@@ -36,8 +36,9 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 INSTALLED_APPS = [
     'rest_framework',
-    'todolist',
+    'todolist.apps.TodolistConfig',
     'django_extensions',
+    'django_filters',
 
     'django.contrib.admin',
     'django.contrib.auth',
