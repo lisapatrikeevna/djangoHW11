@@ -1,26 +1,28 @@
-from django.core.paginator import Paginator
-from django.shortcuts import get_object_or_404
-from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.request import Request
-from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.pagination import PageNumberPagination
 
 from todolist.models import Task
-from todolist.serializers.task import TasksSerializer, SubTaskCreateSerializer, TaskCreateSerializer, TaskDetailSerializer
+from todolist.models.task import SubTask
+from todolist.serializers.task import SubTaskCreateSerializer, TaskCreateSerializer, TaskDetailSerializer
+
+
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size = 5  # Размер страницы по умолчанию
+    page_size_query_param = 'page_size'
+    max_page_size = 100  # Максимальный размер страницы
 
 
 class TaskListCreateAPIView(ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
-    pagination_class=PageNumberPagination
+    pagination_class = CustomPageNumberPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['title', 'publisher', 'status', 'deadline']
     search_fields = ['title', 'description']
-    ordering_fields = ['created_at',]
+    ordering_fields = ['created_at', ]
 
 
 class TaskRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
@@ -45,7 +47,6 @@ class SubTaskDetailUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return SubTask.objects.filter(active=True)
-
 
 # @api_view(['GET', 'PUT', 'DELETE'])
 # def taskGPD(request: Request, pk: int) -> Response:
@@ -81,17 +82,3 @@ class SubTaskDetailUpdateDeleteView(RetrieveUpdateDestroyAPIView):
 #             res.save()
 #             return Response("Task successfully created", status=status.HTTP_201_CREATED)
 #         return Response(res.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
-
-
-
-
-
-
-
-
-
-

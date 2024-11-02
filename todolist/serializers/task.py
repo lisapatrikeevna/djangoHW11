@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import ModelSerializer
 
@@ -22,7 +21,7 @@ class SubTaskCreateSerializer(ModelSerializer):
 
 class CategoryCreateSerializer(ModelSerializer):
     class Meta:
-        model = Task
+        model = Category
         fields = '__all__'
 
         def create(self, validated_data):
