@@ -1,3 +1,4 @@
+from rest_framework import permissions
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -16,6 +17,7 @@ class CustomPageNumberPagination(PageNumberPagination):
 
 
 class TaskListCreateAPIView(ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
     pagination_class = CustomPageNumberPagination
@@ -26,6 +28,7 @@ class TaskListCreateAPIView(ListCreateAPIView):
 
 
 class TaskRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Task.objects.all()
     serializer_class = TaskDetailSerializer
     lookup_field = 't_slug'
